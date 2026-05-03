@@ -1,0 +1,98 @@
+<?php
+require_once 'models/Book.php';
+require_once 'models/Reservation.php';
+
+class BookController {
+    private $model;
+    private $pdo;
+
+    public function __construct($pdo) {
+        $this->pdo = $pdo;
+        $this->model = new Book($pdo);
+    }
+
+    public function index() {
+        $resModel = new Reservation($this->pdo);
+        $resModel->expireOld();
+
+        $selectedCategory = $_GET['category'] ?? null;
+
+        if ($selectedCategory !== null && $selectedCategory !== '') {
+            $books = $this->model->getBooksByCategoryWithStock($selectedCategory);
+            $categoryName = $selectedCategory;
+            if ($_SESSION['user_role'] === 'member') {
+                $userReservations = $resModel->getByUserId($_SESSION['user_id']);
+                $reservedBookIds = [];
+                foreach ($userReservations as $r) {
+                    if ($r['status'] === Reservation::STATUS_ACTIVE) {
+                        $reservedBookIds[] = (int) $r['book_id'];
+                    }
+                }
+            }
+            require 'views/books/index.php';
+        } else {
+            $categories = $this->model->getCategories();
+            require 'views/books/index.php';
+        }
+    }
+
+    public function add() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            verifyCsrf();
+            $isbn = trim($_POST['isbn'] ?? '');
+            $title = trim($_POST['title'] ?? '');
+            $author = trim($_POST['author'] ?? '');
+            $category = trim($_POST['category'] ?? 'Genel');
+            $stock_count = (int) ($_POST['stock_count'] ?? 0);
+
+            if (!empty($isbn) && !empty($title) && !empty($author) && $stock_count >= 0) {
+                $this->model->create($isbn, $title, $author, $category, $stock_count);
+                header('Location: ?action=books');
+                exit;
+            }
+        }
+        $categories = $this->model->getCategories();
+        require 'views/books/add.php';
+    }
+
+    public function edit() {
+        $id = (int) ($_GET['id'] ?? 0);
+        if ($id <= 0) {
+            header('Location: ?action=books');
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            verifyCsrf();
+            $isbn = trim($_POST['isbn'] ?? '');
+            $title = trim($_POST['title'] ?? '');
+            $author = trim($_POST['author'] ?? '');
+            $category = trim($_POST['category'] ?? 'Genel');
+            $stock_count = (int) ($_POST['stock_count'] ?? 0);
+
+            if (!empty($isbn) && !empty($title) && !empty($author) && $stock_count >= 0) {
+                $this->model->update($id, $isbn, $title, $author, $category, $stock_count);
+                header('Location: ?action=books&category=' . urlencode($category));
+                exit;
+            }
+        }
+
+        $book = $this->model->getById($id);
+        $categories = $this->model->getCategories();
+        require 'views/books/edit.php';
+    }
+
+    public function delete() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ?action=books');
+            exit;
+        }
+        verifyCsrf();
+        $id = (int) ($_POST['id'] ?? 0);
+        if ($id > 0) {
+            $this->model->delete($id);
+        }
+        header('Location: ?action=books');
+        exit;
+    }
+}
