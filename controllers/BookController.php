@@ -45,8 +45,12 @@ class BookController {
             $category = trim($_POST['category'] ?? 'Genel');
             $stock_count = (int) ($_POST['stock_count'] ?? 0);
 
+            $cover_image = $this->uploadCoverImage($isbn);
+
+            $description = trim($_POST['description'] ?? '');
+
             if (!empty($isbn) && !empty($title) && !empty($author) && $stock_count >= 0) {
-                $this->model->create($isbn, $title, $author, $category, $stock_count);
+                $this->model->create($isbn, $title, $author, $category, $stock_count, $cover_image, $description);
                 header('Location: ?action=books');
                 exit;
             }
@@ -70,8 +74,12 @@ class BookController {
             $category = trim($_POST['category'] ?? 'Genel');
             $stock_count = (int) ($_POST['stock_count'] ?? 0);
 
+            $cover_image = $this->uploadCoverImage($isbn);
+
+            $description = trim($_POST['description'] ?? '');
+
             if (!empty($isbn) && !empty($title) && !empty($author) && $stock_count >= 0) {
-                $this->model->update($id, $isbn, $title, $author, $category, $stock_count);
+                $this->model->update($id, $isbn, $title, $author, $category, $stock_count, $cover_image, $description);
                 header('Location: ?action=books&category=' . urlencode($category));
                 exit;
             }
@@ -94,5 +102,24 @@ class BookController {
         }
         header('Location: ?action=books');
         exit;
+    }
+
+    private function uploadCoverImage($isbn) {
+        if (isset($_FILES['cover_image']) && $_FILES['cover_image']['error'] === UPLOAD_ERR_OK) {
+            $ext = strtolower(pathinfo($_FILES['cover_image']['name'], PATHINFO_EXTENSION));
+            $allowedExts = ['jpg', 'jpeg', 'png', 'webp'];
+
+            if (in_array($ext, $allowedExts) && $_FILES['cover_image']['size'] <= 2 * 1024 * 1024) {
+                $filename = 'cover_' . ($isbn ? $isbn . '_' : '') . uniqid() . '.' . $ext;
+                if (!is_dir('uploads/covers')) {
+                    @mkdir('uploads/covers', 0777, true);
+                }
+                $uploadPath = 'uploads/covers/' . $filename;
+                if (move_uploaded_file($_FILES['cover_image']['tmp_name'], $uploadPath)) {
+                    return $uploadPath;
+                }
+            }
+        }
+        return null;
     }
 }

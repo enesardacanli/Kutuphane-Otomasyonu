@@ -73,27 +73,44 @@ class Book {
         return $stmt->fetchAll();
     }
 
-    public function create($isbn, $title, $author, $category, $stock_count) {
-        $stmt = $this->pdo->prepare("INSERT INTO books (isbn, title, author, category, stock_count) VALUES (:isbn, :title, :author, :category, :stock_count)");
+    public function create($isbn, $title, $author, $category, $stock_count, $cover_image = null, $description = null) {
+        $stmt = $this->pdo->prepare("INSERT INTO books (isbn, title, author, category, cover_image, description, stock_count) VALUES (:isbn, :title, :author, :category, :cover_image, :description, :stock_count)");
         return $stmt->execute([
             'isbn' => $isbn,
             'title' => $title,
             'author' => $author,
             'category' => $category,
+            'cover_image' => $cover_image,
+            'description' => $description,
             'stock_count' => (int) $stock_count
         ]);
     }
 
-    public function update($id, $isbn, $title, $author, $category, $stock_count) {
-        $stmt = $this->pdo->prepare("UPDATE books SET isbn = :isbn, title = :title, author = :author, category = :category, stock_count = :stock_count WHERE id = :id");
-        return $stmt->execute([
-            'id' => (int) $id,
-            'isbn' => $isbn,
-            'title' => $title,
-            'author' => $author,
-            'category' => $category,
-            'stock_count' => (int) $stock_count
-        ]);
+    public function update($id, $isbn, $title, $author, $category, $stock_count, $cover_image = null, $description = null) {
+        if ($cover_image !== null) {
+            $stmt = $this->pdo->prepare("UPDATE books SET isbn = :isbn, title = :title, author = :author, category = :category, cover_image = :cover_image, description = :description, stock_count = :stock_count WHERE id = :id");
+            return $stmt->execute([
+                'id' => (int) $id,
+                'isbn' => $isbn,
+                'title' => $title,
+                'author' => $author,
+                'category' => $category,
+                'cover_image' => $cover_image,
+                'description' => $description,
+                'stock_count' => (int) $stock_count
+            ]);
+        } else {
+            $stmt = $this->pdo->prepare("UPDATE books SET isbn = :isbn, title = :title, author = :author, category = :category, description = :description, stock_count = :stock_count WHERE id = :id");
+            return $stmt->execute([
+                'id' => (int) $id,
+                'isbn' => $isbn,
+                'title' => $title,
+                'author' => $author,
+                'category' => $category,
+                'description' => $description,
+                'stock_count' => (int) $stock_count
+            ]);
+        }
     }
 
     public function delete($id) {

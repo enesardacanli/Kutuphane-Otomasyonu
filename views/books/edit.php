@@ -2,7 +2,7 @@
 <h2>Kitap Düzenle</h2>
 <div class="row">
     <div class="col-md-6">
-        <form method="POST" action="">
+        <form method="POST" action="" enctype="multipart/form-data">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>">
             <div class="mb-3">
                 <label for="isbn" class="form-label">ISBN</label>
@@ -30,7 +30,21 @@
             </div>
             <div class="mb-3">
                 <label for="stock_count" class="form-label">Stok Adedi</label>
-                <input type="number" class="form-control" id="stock_count" name="stock_count" value="<?= htmlspecialchars($book['stock_count'] ?? '0') ?>" min="0" required>
+                <input type="number" class="form-control" id="stock_count" name="stock_count" value="<?= (int) ($book['stock_count'] ?? 0) ?>" min="0" required>
+            </div>
+            <div class="mb-3">
+                <label for="cover_image" class="form-label">Kapak Görseli (Değiştirmek için yükleyin, Maks 2MB)</label>
+                <input type="file" class="form-control" id="cover_image" name="cover_image" accept="image/jpeg, image/png, image/webp">
+                <?php if (!empty($book['cover_image'])): ?>
+                    <div class="mt-2">
+                        <img src="<?= htmlspecialchars($book['cover_image']) ?>" alt="Kapak" style="max-height: 100px; border-radius: 4px;">
+                        <small class="text-muted d-block">Mevcut Görsel</small>
+                    </div>
+                <?php endif; ?>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Kitap Açıklaması</label>
+                <textarea class="form-control" id="description" name="description" rows="4" placeholder="Kitap hakkında kısa bilgi girin..."><?= htmlspecialchars($book['description'] ?? '') ?></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Güncelle</button>
             <a href="?action=books" class="btn btn-secondary">İptal</a>

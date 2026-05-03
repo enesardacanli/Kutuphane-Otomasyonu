@@ -16,6 +16,8 @@ CREATE TABLE books (
     title VARCHAR(255) NOT NULL,
     author VARCHAR(255) NOT NULL,
     category VARCHAR(100) DEFAULT 'Genel',
+    cover_image VARCHAR(255) NULL DEFAULT NULL,
+    description TEXT NULL,
     stock_count INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

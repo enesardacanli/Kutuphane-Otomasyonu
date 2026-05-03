@@ -220,6 +220,22 @@
             color: var(--text-secondary) !important;
         }
 
+        .form-control::file-selector-button {
+            background-color: var(--bg-secondary) !important;
+            color: var(--text-primary) !important;
+            border-color: var(--border-color) !important;
+            transition: background-color var(--transition-speed) var(--transition-ease), color var(--transition-speed) var(--transition-ease);
+        }
+
+        .form-control:hover::file-selector-button {
+            background-color: var(--accent) !important;
+            color: #fff !important;
+        }
+
+        .form-text, .text-muted {
+            color: var(--text-secondary) !important;
+        }
+
         /* ── Alerts ── */
         .alert {
             border: 1px solid var(--border-color) !important;

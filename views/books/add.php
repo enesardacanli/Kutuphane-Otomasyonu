@@ -2,7 +2,7 @@
 <h2>Yeni Kitap Ekle</h2>
 <div class="row">
     <div class="col-md-6">
-        <form method="POST" action="">
+        <form method="POST" action="" enctype="multipart/form-data">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>">
             <div class="mb-3">
                 <label for="isbn" class="form-label">ISBN</label>
@@ -31,6 +31,14 @@
             <div class="mb-3">
                 <label for="stock_count" class="form-label">Stok Adedi</label>
                 <input type="number" class="form-control" id="stock_count" name="stock_count" value="0" min="0" required>
+            </div>
+            <div class="mb-3">
+                <label for="cover_image" class="form-label">Kapak Görseli (İsteğe Bağlı, Maks 2MB)</label>
+                <input type="file" class="form-control" id="cover_image" name="cover_image" accept="image/jpeg, image/png, image/webp">
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Kitap Açıklaması</label>
+                <textarea class="form-control" id="description" name="description" rows="4" placeholder="Kitap hakkında kısa bilgi girin..."></textarea>
             </div>
             <button type="submit" class="btn btn-success">Kaydet</button>
             <a href="?action=books" class="btn btn-secondary">İptal</a>
