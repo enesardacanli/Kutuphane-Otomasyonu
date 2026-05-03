@@ -1,5 +1,5 @@
 <?php ob_start(); ?>
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="page-header">
     <h2>Ödünç İşlemleri</h2>
     <a href="?action=add_loan" class="btn btn-primary">Yeni Ödünç Ver</a>
 </div>

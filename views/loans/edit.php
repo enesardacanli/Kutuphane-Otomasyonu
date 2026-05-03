@@ -1,5 +1,7 @@
 <?php ob_start(); ?>
-<h2>Kitap İade İşlemi</h2>
+<div class="page-header">
+    <h2>Kitap İade İşlemi</h2>
+</div>
 
 <div class="card mb-4">
     <div class="card-body">
@@ -15,7 +17,7 @@
     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>">
     <div class="mb-3">
         <label for="actual_return_date" class="form-label">Gerçekleşen İade Tarihi</label>
-        <input type="date" class="form-control" id="actual_return_date" name="actual_return_date" required value="<?= date('Y-m-d') ?>">
+        <input type="date" class="form-control" id="actual_return_date" name="actual_return_date" required value="<?= date('Y-m-d') ?>" style="max-width: 250px;">
     </div>
     <button type="submit" class="btn btn-success">İadeyi Onayla</button>
     <a href="?action=loans" class="btn btn-secondary">İptal</a>

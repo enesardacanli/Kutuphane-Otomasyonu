@@ -17,6 +17,10 @@
                 <input type="text" class="form-control" id="author" name="author" value="<?= htmlspecialchars($book['author'] ?? '') ?>" required>
             </div>
             <div class="mb-3">
+                <label for="publisher" class="form-label">Yayınevi</label>
+                <input type="text" class="form-control" id="publisher" name="publisher" value="<?= htmlspecialchars($book['publisher'] ?? '') ?>">
+            </div>
+            <div class="mb-3">
                 <label for="category" class="form-label">Kategori</label>
                 <input type="text" class="form-control" id="category" name="category" list="category-list" value="<?= htmlspecialchars($book['category'] ?? 'Genel') ?>" required>
                 <datalist id="category-list">

@@ -1,5 +1,7 @@
 <?php ob_start(); ?>
-<h2>Rezervasyonlarım</h2>
+<div class="page-header">
+    <h2>Rezervasyonlarım</h2>
+</div>
 
 <?php if (empty($reservations)): ?>
 <div class="text-center py-5">

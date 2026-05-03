@@ -1,5 +1,7 @@
 <?php ob_start(); ?>
-<h2>Üye Düzenle</h2>
+<div class="page-header">
+    <h2>Üye Düzenle</h2>
+</div>
 <div class="row">
     <div class="col-md-6">
         <form method="POST" action="">

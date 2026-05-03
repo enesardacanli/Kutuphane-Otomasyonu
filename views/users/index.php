@@ -1,5 +1,5 @@
 <?php ob_start(); ?>
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="page-header">
     <h2>Üye Listesi</h2>
     <a href="?action=add_user" class="btn btn-success">Yeni Üye Ekle</a>
 </div>

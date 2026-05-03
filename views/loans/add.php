@@ -1,5 +1,7 @@
 <?php ob_start(); ?>
-<h2>Yeni Ödünç İşlemi</h2>
+<div class="page-header">
+    <h2>Yeni Ödünç İşlemi</h2>
+</div>
 
 <?php if (isset($error)): ?>
     <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>

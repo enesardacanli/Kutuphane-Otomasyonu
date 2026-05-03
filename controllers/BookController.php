@@ -15,23 +15,33 @@ class BookController {
         $resModel = new Reservation($this->pdo);
         $resModel->expireOld();
 
+        $tab = $_GET['tab'] ?? 'books';
         $selectedCategory = $_GET['category'] ?? null;
+        $authorFilter = $_GET['author'] ?? null;
+        $publisherFilter = $_GET['publisher'] ?? null;
 
-        if ($selectedCategory !== null && $selectedCategory !== '') {
-            $books = $this->model->getBooksByCategoryWithStock($selectedCategory);
-            $categoryName = $selectedCategory;
-            if ($_SESSION['user_role'] === 'member') {
-                $userReservations = $resModel->getByUserId($_SESSION['user_id']);
-                $reservedBookIds = [];
-                foreach ($userReservations as $r) {
-                    if ($r['status'] === Reservation::STATUS_ACTIVE) {
-                        $reservedBookIds[] = (int) $r['book_id'];
-                    }
+        // Fetch filter options
+        $distinctAuthors = $this->model->getDistinctAuthors();
+        $distinctPublishers = $this->model->getDistinctPublishers();
+
+        // Check active reservations for members
+        $reservedBookIds = [];
+        if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'member') {
+            $userReservations = $resModel->getByUserId($_SESSION['user_id']);
+            foreach ($userReservations as $r) {
+                if ($r['status'] === Reservation::STATUS_ACTIVE) {
+                    $reservedBookIds[] = (int) $r['book_id'];
                 }
             }
+        }
+
+        if ($tab === 'categories' && empty($selectedCategory) && empty($authorFilter) && empty($publisherFilter)) {
+            $categories = $this->model->getCategories();
             require 'views/books/index.php';
         } else {
-            $categories = $this->model->getCategories();
+            // "books" tab or active filters/category
+            $books = $this->model->getAllFiltered($selectedCategory, $authorFilter, $publisherFilter);
+            $categoryName = $selectedCategory ?? 'Tüm Kitaplar';
             require 'views/books/index.php';
         }
     }
@@ -43,6 +53,7 @@ class BookController {
             $title = trim($_POST['title'] ?? '');
             $author = trim($_POST['author'] ?? '');
             $category = trim($_POST['category'] ?? 'Genel');
+            $publisher = trim($_POST['publisher'] ?? '');
             $stock_count = (int) ($_POST['stock_count'] ?? 0);
 
             $cover_image = $this->uploadCoverImage($isbn);
@@ -50,7 +61,7 @@ class BookController {
             $description = trim($_POST['description'] ?? '');
 
             if (!empty($isbn) && !empty($title) && !empty($author) && $stock_count >= 0) {
-                $this->model->create($isbn, $title, $author, $category, $stock_count, $cover_image, $description);
+                $this->model->create($isbn, $title, $author, $category, $stock_count, $cover_image, $description, $publisher);
                 header('Location: ?action=books');
                 exit;
             }
@@ -72,6 +83,7 @@ class BookController {
             $title = trim($_POST['title'] ?? '');
             $author = trim($_POST['author'] ?? '');
             $category = trim($_POST['category'] ?? 'Genel');
+            $publisher = trim($_POST['publisher'] ?? '');
             $stock_count = (int) ($_POST['stock_count'] ?? 0);
 
             $cover_image = $this->uploadCoverImage($isbn);
@@ -79,7 +91,7 @@ class BookController {
             $description = trim($_POST['description'] ?? '');
 
             if (!empty($isbn) && !empty($title) && !empty($author) && $stock_count >= 0) {
-                $this->model->update($id, $isbn, $title, $author, $category, $stock_count, $cover_image, $description);
+                $this->model->update($id, $isbn, $title, $author, $category, $stock_count, $cover_image, $description, $publisher);
                 header('Location: ?action=books&category=' . urlencode($category));
                 exit;
             }

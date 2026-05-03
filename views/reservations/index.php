@@ -1,5 +1,7 @@
 <?php ob_start(); ?>
-<h2>Aktif Rezervasyonlar</h2>
+<div class="page-header">
+    <h2>Aktif Rezervasyonlar</h2>
+</div>
 
 <?php if (empty($reservations)): ?>
 <div class="text-center py-5">
@@ -61,8 +63,8 @@
 <?php endif; ?>
 
 <?php if (!empty($allReservations)): ?>
-<hr style="border-color: var(--border-color);">
-<h3 class="mt-4">Tüm Rezervasyonlar</h3>
+<hr style="border-color: var(--border-color); margin: 2rem 0;">
+<h3 class="mb-3">Tüm Rezervasyonlar</h3>
 <div class="table-responsive">
     <table class="table table-striped table-hover mt-3">
         <thead class="table-dark">
