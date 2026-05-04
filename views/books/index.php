@@ -293,6 +293,10 @@ $currentTab = $_GET['tab'] ?? 'books';
     background: transparent;
     width: 100%;
     text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.8rem;
 }
 
 .filter-dropdown .dropdown-item:hover {
@@ -444,6 +448,11 @@ $currentTab = $_GET['tab'] ?? 'books';
 
 #filterForm .filter-dropdown .dropdown-item {
     color: var(--text-primary) !important;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.8rem;
 }
 
 #filterForm .filter-dropdown .dropdown-item:hover {
@@ -470,6 +479,7 @@ $currentTab = $_GET['tab'] ?? 'books';
     -webkit-appearance: none !important;
     appearance: none !important;
     color: var(--text-primary) !important;
+    font-size: 0.8rem;
 }
 
 #filterForm .filter-dropdown .search-input:focus,
@@ -519,17 +529,17 @@ $currentTab = $_GET['tab'] ?? 'books';
             <?php endif; ?>
             
             <div class="dropdown filter-dropdown ms-1">
-                <button class="btn btn-sm border-0 dropdown-toggle py-2 px-3 d-flex align-items-center justify-content-between rounded-pill fw-medium" type="button" data-bs-toggle="dropdown" style="color: var(--text-primary); min-width: 140px; background: <?= !empty($authorFilter) ? 'var(--accent-glow)' : 'transparent' ?>; color: <?= !empty($authorFilter) ? 'var(--accent)' : 'inherit' ?>;">
-                    <span class="text-truncate" style="max-width: 110px;"><?= !empty($authorFilter) ? htmlspecialchars($authorFilter) : 'Tüm Yazarlar' ?></span>
+                <button class="btn btn-sm border-0 dropdown-toggle py-2 px-3 d-flex align-items-center justify-content-between rounded-pill fw-medium" type="button" data-bs-toggle="dropdown" style="color: var(--text-primary); min-width: 180px; background: <?= !empty($authorFilter) ? 'var(--accent-glow)' : 'transparent' ?>; color: <?= !empty($authorFilter) ? 'var(--accent)' : 'inherit' ?>;">
+                    <span class="text-truncate" style="max-width: 150px;"><?= !empty($authorFilter) ? htmlspecialchars($authorFilter) : 'Tüm Yazarlar' ?></span>
                 </button>
                 <ul class="dropdown-menu shadow-lg border-0" style="border-radius: 12px;">
                     <div class="search-container">
                         <input type="text" class="search-input" placeholder="Yazar ara..." onkeyup="filterDropdown(this)">
                     </div>
-                    <li><a class="dropdown-item <?= empty($authorFilter) ? 'active fw-bold' : '' ?>" onclick="submitFilter('author', '')">Tümü</a></li>
+                    <li><button type="button" class="dropdown-item <?= empty($authorFilter) ? 'active fw-bold' : '' ?>" onclick="submitFilter('author', '')">Tümü</button></li>
                     <div class="dropdown-list">
                         <?php if(!empty($distinctAuthors)): foreach ($distinctAuthors as $a): ?>
-                        <li><a class="dropdown-item <?= $authorFilter === $a ? 'active fw-bold' : '' ?>" onclick="submitFilter('author', '<?= htmlspecialchars(addslashes($a)) ?>')"><?= htmlspecialchars($a) ?></a></li>
+                        <li><button type="button" class="dropdown-item <?= $authorFilter === $a ? 'active fw-bold' : '' ?>" onclick="submitFilter('author', '<?= htmlspecialchars(addslashes($a)) ?>')"><?= htmlspecialchars($a) ?></button></li>
                         <?php endforeach; endif; ?>
                     </div>
                 </ul>
@@ -538,17 +548,17 @@ $currentTab = $_GET['tab'] ?? 'books';
             <div class="vr mx-2 opacity-25" style="height: 24px;"></div>
             
             <div class="dropdown filter-dropdown me-1">
-                <button class="btn btn-sm border-0 dropdown-toggle py-2 px-3 d-flex align-items-center justify-content-between rounded-pill fw-medium" type="button" data-bs-toggle="dropdown" style="color: var(--text-primary); min-width: 150px; background: <?= !empty($publisherFilter) ? 'var(--accent-glow)' : 'transparent' ?>; color: <?= !empty($publisherFilter) ? 'var(--accent)' : 'inherit' ?>;">
-                    <span class="text-truncate" style="max-width: 120px;"><?= !empty($publisherFilter) ? htmlspecialchars($publisherFilter) : 'Tüm Yayınevleri' ?></span>
+                <button class="btn btn-sm border-0 dropdown-toggle py-2 px-3 d-flex align-items-center justify-content-between rounded-pill fw-medium" type="button" data-bs-toggle="dropdown" style="color: var(--text-primary); min-width: 190px; background: <?= !empty($publisherFilter) ? 'var(--accent-glow)' : 'transparent' ?>; color: <?= !empty($publisherFilter) ? 'var(--accent)' : 'inherit' ?>;">
+                    <span class="text-truncate" style="max-width: 160px;"><?= !empty($publisherFilter) ? htmlspecialchars($publisherFilter) : 'Tüm Yayınevleri' ?></span>
                 </button>
                 <ul class="dropdown-menu shadow-lg border-0" style="border-radius: 12px;">
                     <div class="search-container">
                         <input type="text" class="search-input" placeholder="Yayınevi ara..." onkeyup="filterDropdown(this)">
                     </div>
-                    <li><a class="dropdown-item <?= empty($publisherFilter) ? 'active fw-bold' : '' ?>" onclick="submitFilter('publisher', '')">Tümü</a></li>
+                    <li><button type="button" class="dropdown-item <?= empty($publisherFilter) ? 'active fw-bold' : '' ?>" onclick="submitFilter('publisher', '')">Tümü</button></li>
                     <div class="dropdown-list">
                         <?php if(!empty($distinctPublishers)): foreach ($distinctPublishers as $p): ?>
-                        <li><a class="dropdown-item <?= $publisherFilter === $p ? 'active fw-bold' : '' ?>" onclick="submitFilter('publisher', '<?= htmlspecialchars(addslashes($p)) ?>')"><?= htmlspecialchars($p) ?></a></li>
+                        <li><button type="button" class="dropdown-item <?= $publisherFilter === $p ? 'active fw-bold' : '' ?>" onclick="submitFilter('publisher', '<?= htmlspecialchars(addslashes($p)) ?>')"><?= htmlspecialchars($p) ?></button></li>
                         <?php endforeach; endif; ?>
                     </div>
                 </ul>
@@ -610,6 +620,28 @@ $currentTab = $_GET['tab'] ?? 'books';
         gap: 8px;
     }
 
+    .book-card-wrap {
+        position: relative;
+        padding-top: 18px;
+    }
+
+    .book-category-text {
+        position: absolute;
+        top: 0;
+        left: 2px;
+        z-index: 2;
+        max-width: calc(100% - 6px);
+        font-size: 0.72rem;
+        line-height: 1.1;
+        font-weight: 500;
+        color: var(--text-secondary);
+        pointer-events: none;
+        user-select: none;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     @keyframes cardEnter {
         from { opacity: 0; transform: translateY(24px) scale(0.95); }
         to { opacity: 1; transform: translateY(0) scale(1); }
@@ -632,7 +664,10 @@ $currentTab = $_GET['tab'] ?? 'books';
         $avail = (int) ($book['available_stock'] ?? 0);
         $isReserved = (!empty($reservedBookIds) && in_array($bookId, $reservedBookIds, true)) ? 'true' : 'false';
     ?>
-    <div style="animation: cardEnter 0.5s cubic-bezier(0.4, 0, 0.2, 1) both; animation-delay: <?= $index * 0.04 ?>s;">
+    <div class="book-card-wrap" style="animation: cardEnter 0.5s cubic-bezier(0.4, 0, 0.2, 1) both; animation-delay: <?= $index * 0.04 ?>s;">
+        <?php if ($currentTab === 'books' && empty($selectedCategory)): ?>
+            <div class="book-category-text" title="<?= htmlspecialchars(!empty($book['category']) ? $book['category'] : 'Genel') ?>"><?= htmlspecialchars(!empty($book['category']) ? $book['category'] : 'Genel') ?></div>
+        <?php endif; ?>
         <div class="card shadow-sm border-0 h-100" 
              style="cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; border-radius: 12px; overflow: hidden;" 
              data-id="<?= $bookId ?>"
@@ -875,11 +910,12 @@ function openBookModal(id, title, author, category, isbn, stock, cover, isReserv
             </div>
         `;
     } else if (userRole === 'member') {
+        let memberActions = '<div class="d-flex gx-2 flex-wrap">';
         if (isReserved) {
-            actionsDiv.innerHTML = `<span class="badge bg-success p-2 px-4 fs-6">✓ Rezerv Edildi</span>`;
+            memberActions += `<span class="badge bg-success p-2 px-4 fs-6 me-2 mb-2 align-self-center">✓ Rezerv Edildi</span>`;
         } else if (parseInt(stock) > 0) {
-            actionsDiv.innerHTML = `
-                <form method="POST" action="?action=reserve_book">
+            memberActions += `
+                <form method="POST" action="?action=reserve_book" class="me-2 mb-2">
                     <input type="hidden" name="csrf_token" value="${csrfToken}">
                     <input type="hidden" name="book_id" value="${id}">
                     <input type="hidden" name="category" value="${catName}">
@@ -887,6 +923,21 @@ function openBookModal(id, title, author, category, isbn, stock, cover, isReserv
                 </form>
             `;
         }
+        memberActions += `
+            <form method="POST" action="?action=add_to_library" class="me-2 mb-2">
+                <input type="hidden" name="csrf_token" value="${csrfToken}">
+                <input type="hidden" name="book_id" value="${id}">
+                <input type="hidden" name="status" value="wishlist">
+                <button type="submit" class="btn btn-outline-warning px-3 fw-bold">İstek Listesine Ekle</button>
+            </form>
+            <form method="POST" action="?action=add_to_library" class="mb-2">
+                <input type="hidden" name="csrf_token" value="${csrfToken}">
+                <input type="hidden" name="book_id" value="${id}">
+                <input type="hidden" name="status" value="read">
+                <button type="submit" class="btn btn-outline-success px-3 fw-bold">Okudum Olarak İşaretle</button>
+            </form>
+        </div>`;
+        actionsDiv.innerHTML = memberActions;
     }
     
     if (cover) {

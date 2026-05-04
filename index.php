@@ -152,6 +152,24 @@ switch ($action) {
         $controller = new ReservationController($pdo);
         $controller->cancel();
         break;
+    case 'my_library':
+        requireLogin();
+        require_once 'controllers/MyLibraryController.php';
+        $controller = new MyLibraryController($pdo);
+        $controller->index();
+        break;
+    case 'add_to_library':
+        requireLogin();
+        require_once 'controllers/MyLibraryController.php';
+        $controller = new MyLibraryController($pdo);
+        $controller->add();
+        break;
+    case 'update_library_status':
+        requireLogin();
+        require_once 'controllers/MyLibraryController.php';
+        $controller = new MyLibraryController($pdo);
+        $controller->update();
+        break;
     default:
         if (!empty($_SESSION['user_id'])) {
             header('Location: ?action=books');

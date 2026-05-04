@@ -806,6 +806,12 @@
                     <span class="nav-text">Kitaplar</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="?action=my_library" title="Kütüphanem">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                    <span class="nav-text">Kütüphanem</span>
+                </a>
+            </li>
             <?php if (in_array($_SESSION['user_role'], [User::ROLE_ADMIN, User::ROLE_STAFF], true)): ?>
             <li class="nav-item">
                 <a class="nav-link" href="?action=users" title="Üyeler">
