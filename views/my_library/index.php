@@ -360,6 +360,14 @@ function openBookModalFromEl(el) {
             <button type="submit" class="btn ${btnClass} px-3 fw-bold">${btnText}</button>
         </form>
     `;
+
+    html += `
+        <form method="POST" action="?action=remove_from_library" class="mb-2" onsubmit="return confirm('Bu kitabı Kütüphanem’den kaldırmak istediğinize emin misiniz?')">
+            <input type="hidden" name="csrf_token" value="${csrfToken}">
+            <input type="hidden" name="book_id" value="${id}">
+            <button type="submit" class="btn btn-outline-danger px-3 fw-bold">Kaldır</button>
+        </form>
+    `;
     
     actionsDiv.innerHTML = html;
     

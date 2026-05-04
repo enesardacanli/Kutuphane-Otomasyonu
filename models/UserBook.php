@@ -43,4 +43,16 @@ class UserBook {
             'book_id' => $bookId
         ]);
     }
+
+    public function removeBookFromLibrary($userId, $bookId) {
+        $stmt = $this->pdo->prepare("
+            DELETE FROM user_books
+            WHERE user_id = :user_id AND book_id = :book_id
+        ");
+
+        return $stmt->execute([
+            'user_id' => (int) $userId,
+            'book_id' => (int) $bookId
+        ]);
+    }
 }

@@ -170,6 +170,12 @@ switch ($action) {
         $controller = new MyLibraryController($pdo);
         $controller->update();
         break;
+    case 'remove_from_library':
+        requireLogin();
+        require_once 'controllers/MyLibraryController.php';
+        $controller = new MyLibraryController($pdo);
+        $controller->remove();
+        break;
     default:
         if (!empty($_SESSION['user_id'])) {
             header('Location: ?action=books');

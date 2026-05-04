@@ -69,4 +69,23 @@ class MyLibraryController {
             exit;
         }
     }
+
+    public function remove() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header("Location: ?action=my_library");
+            exit;
+        }
+
+        verifyCsrf();
+
+        $userId = $_SESSION['user_id'];
+        $bookId = (int) ($_POST['book_id'] ?? 0);
+
+        if ($bookId > 0) {
+            $this->userBookModel->removeBookFromLibrary($userId, $bookId);
+        }
+
+        header("Location: ?action=my_library");
+        exit;
+    }
 }
