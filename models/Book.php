@@ -2,6 +2,10 @@
 require_once 'models/Reservation.php';
 
 class Book {
+    const DEFAULT_CATEGORY = 'Genel';
+    const ALLOWED_IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp'];
+    const MAX_IMAGE_SIZE = 2097152; // 2MB
+
     private $pdo;
 
     public function __construct($pdo) {
@@ -72,6 +76,7 @@ class Book {
         $stmt->execute(['category' => $category]);
         return $stmt->fetchAll();
     }
+
     public function getDistinctAuthors() {
         $stmt = $this->pdo->prepare("SELECT DISTINCT author FROM books WHERE author IS NOT NULL AND author != '' ORDER BY author ASC");
         $stmt->execute();
@@ -144,19 +149,19 @@ class Book {
                 'stock_count' => (int) $stock_count,
                 'publisher' => $publisher
             ]);
-        } else {
-            $stmt = $this->pdo->prepare("UPDATE books SET isbn = :isbn, title = :title, author = :author, category = :category, description = :description, stock_count = :stock_count, publisher = :publisher WHERE id = :id");
-            return $stmt->execute([
-                'id' => (int) $id,
-                'isbn' => $isbn,
-                'title' => $title,
-                'author' => $author,
-                'category' => $category,
-                'description' => $description,
-                'stock_count' => (int) $stock_count,
-                'publisher' => $publisher
-            ]);
         }
+
+        $stmt = $this->pdo->prepare("UPDATE books SET isbn = :isbn, title = :title, author = :author, category = :category, description = :description, stock_count = :stock_count, publisher = :publisher WHERE id = :id");
+        return $stmt->execute([
+            'id' => (int) $id,
+            'isbn' => $isbn,
+            'title' => $title,
+            'author' => $author,
+            'category' => $category,
+            'description' => $description,
+            'stock_count' => (int) $stock_count,
+            'publisher' => $publisher
+        ]);
     }
 
     public function delete($id) {

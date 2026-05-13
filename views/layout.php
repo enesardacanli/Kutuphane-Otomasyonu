@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kütüphane Otomasyonu</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -16,10 +17,10 @@
         }
 
         [data-theme="dark"] {
-            --bg-primary: #0f1117;
-            --bg-secondary: #1a1d27;
-            --bg-card: #1e2130;
-            --bg-navbar: #141620;
+            --bg-primary: #1d212c;
+            --bg-secondary: #282d3c;
+            --bg-card: #2e3446;
+            --bg-navbar: #212634;
             --text-primary: #e8eaed;
             --text-secondary: #9aa0b0;
             --border-color: rgba(255, 255, 255, 0.06);
@@ -549,6 +550,20 @@
             transform: translateY(-1px);
         }
 
+        .btn-primary {
+            background-color: var(--toggle-bg) !important;
+            border-color: var(--border-color) !important;
+            color: var(--text-primary) !important;
+            box-shadow: 0 2px 4px var(--shadow-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--bg-card) !important;
+            border-color: var(--accent) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
         .btn-secondary {
             background-color: var(--bg-secondary) !important;
             border-color: var(--border-color) !important;
@@ -795,39 +810,39 @@
             </svg>
         </button>
         <a class="sidebar-brand" href="index.php">
-            <span class="brand-icon me-2">📚</span>
+            <i class="ph ph-books brand-icon me-2"></i>
             <span class="nav-text">Kütüphane</span>
         </a>
         <?php if (!empty($_SESSION['user_id'])): ?>
         <ul class="nav">
             <li class="nav-item">
                 <a class="nav-link" href="?action=books" title="Kitaplar">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                    <i class="ph ph-book-open text-muted fs-5 me-2"></i>
                     <span class="nav-text">Kitaplar</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="?action=my_library" title="Kütüphanem">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                    <i class="ph ph-bookmark-simple text-muted fs-5 me-2"></i>
                     <span class="nav-text">Kütüphanem</span>
                 </a>
             </li>
             <?php if (in_array($_SESSION['user_role'], [User::ROLE_ADMIN, User::ROLE_STAFF], true)): ?>
             <li class="nav-item">
                 <a class="nav-link" href="?action=users" title="Üyeler">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    <i class="ph ph-users text-muted fs-5 me-2"></i>
                     <span class="nav-text">Üyeler</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="?action=loans" title="Ödünç İşlemleri">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2"><path d="M17 3v4"></path><path d="M7 3v4"></path><path d="M17 11v4"></path><path d="M7 11v4"></path><path d="M17 19v4"></path><path d="M7 19v4"></path><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>
+                    <i class="ph ph-arrows-left-right text-muted fs-5 me-2"></i>
                     <span class="nav-text">Ödünç İşlemleri</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="?action=reservations" title="Rezervasyonlar">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    <i class="ph ph-calendar-check text-muted fs-5 me-2"></i>
                     <span class="nav-text">Rezervasyonlar</span>
                 </a>
             </li>
@@ -835,7 +850,7 @@
             <?php if ($_SESSION['user_role'] === User::ROLE_MEMBER): ?>
             <li class="nav-item">
                 <a class="nav-link" href="?action=my_reservations" title="Rezervasyonlarım">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    <i class="ph ph-calendar-check text-muted fs-5 me-2"></i>
                     <span class="nav-text">Rezervasyonlarım</span>
                 </a>
             </li>
@@ -845,7 +860,7 @@
         <div class="sidebar-bottom">
             <div class="user-card" title="<?= htmlspecialchars($_SESSION['user_name']) ?>">
                 <div class="user-avatar">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <i class="ph ph-user"></i>
                 </div>
                 <div class="user-info-text">
                     <span class="user-name-small"><?= htmlspecialchars($_SESSION['user_name']) ?></span>
@@ -869,7 +884,7 @@
                     </span>
                 </button>
                 <a class="logout-btn-minimal" href="?action=logout" title="Çıkış">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    <i class="ph ph-sign-out" style="font-size: 1.25rem;"></i>
                 </a>
             </div>
         </div>

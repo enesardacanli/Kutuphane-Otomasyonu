@@ -1,7 +1,9 @@
 <?php ob_start(); ?>
 <div class="page-header">
     <h2>Ödünç İşlemleri</h2>
-    <a href="?action=add_loan" class="btn btn-primary">Yeni Ödünç Ver</a>
+    <a href="?action=add_loan" class="btn btn-primary d-flex align-items-center px-3" style="border-radius: 8px; font-weight: 500;">
+        <i class="ph ph-plus me-2 fs-5"></i> Yeni Ödünç Ver
+    </a>
 </div>
 
 <div class="table-responsive">

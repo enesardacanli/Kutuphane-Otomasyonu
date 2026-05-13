@@ -4,6 +4,9 @@
     <div class="col-md-6">
         <form method="POST" action="" enctype="multipart/form-data">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>">
+            <?php if (!empty($returnUrl)): ?>
+            <input type="hidden" name="return" value="<?= htmlspecialchars($returnUrl) ?>">
+            <?php endif; ?>
             <div class="mb-3">
                 <label for="isbn" class="form-label">ISBN</label>
                 <input type="text" class="form-control" id="isbn" name="isbn" value="<?= htmlspecialchars($book['isbn'] ?? '') ?>" required>
@@ -22,7 +25,7 @@
             </div>
             <div class="mb-3">
                 <label for="category" class="form-label">Kategori</label>
-                <input type="text" class="form-control" id="category" name="category" list="category-list" value="<?= htmlspecialchars($book['category'] ?? 'Genel') ?>" required>
+                <input type="text" class="form-control" id="category" name="category" list="category-list" value="<?= htmlspecialchars($book['category'] ?? Book::DEFAULT_CATEGORY) ?>" required>
                 <datalist id="category-list">
                     <?php if (!empty($categories)): ?>
                         <?php foreach ($categories as $cat): ?>
@@ -51,7 +54,7 @@
                 <textarea class="form-control" id="description" name="description" rows="4" placeholder="Kitap hakkında kısa bilgi girin..."><?= htmlspecialchars($book['description'] ?? '') ?></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Güncelle</button>
-            <a href="?action=books" class="btn btn-secondary">İptal</a>
+            <a href="<?= htmlspecialchars(!empty($returnUrl) ? $returnUrl : '?action=books') ?>" class="btn btn-secondary">İptal</a>
         </form>
     </div>
 </div>

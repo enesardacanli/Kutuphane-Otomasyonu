@@ -1,36 +1,18 @@
 <?php ob_start(); ?>
 
 <?php
-$categoryIcons = [
-    'Roman'           => ['📖', 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'],
-    'Bilim'           => ['🔬', 'linear-gradient(135deg, #00c9ff 0%, #92fe9d 100%)'],
-    'Tarih'           => ['🏛️', 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'],
-    'Felsefe'         => ['💭', 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'],
-    'Şiir'            => ['✒️', 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)'],
-    'Teknoloji'       => ['💻', 'linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)'],
-    'Sanat'           => ['🎨', 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)'],
-    'Çocuk'           => ['🧸', 'linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%)'],
-    'Edebiyat'        => ['📚', 'linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)'],
-    'Psikoloji'       => ['🧠', 'linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%)'],
-    'Hukuk'           => ['⚖️', 'linear-gradient(135deg, #cfd9df 0%, #e2ebf0 100%)'],
-    'Ekonomi'         => ['📊', 'linear-gradient(135deg, #f5af19 0%, #f12711 100%)'],
-    'Din'             => ['🕌', 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'],
-    'Spor'            => ['⚽', 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)'],
-    'Müzik'           => ['🎵', 'linear-gradient(135deg, #ee9ca7 0%, #ffdde1 100%)'],
-    'Genel'           => ['📕', 'linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)'],
+$iconMap = [
+    'Bilim'               => 'ph-duotone ph-atom',
+    'Bilim Kurgu'         => 'ph-duotone ph-flying-saucer',
+    'Biyografi'           => 'ph-duotone ph-pen-nib',
+    'Dünya Klasikleri'    => 'ph-duotone ph-globe-hemisphere-west',
+    'Felsefe'             => 'ph-duotone ph-lightbulb',
+    'Psikoloji'           => 'ph-duotone ph-brain',
+    'Tarih'               => 'ph-duotone ph-hourglass-high',
+    'Türk Klasikleri'     => 'ph-duotone ph-star-half',
+    'Yazılım Mühendisliği'=> 'ph-duotone ph-code'
 ];
-
-$defaultIcon = '📗';
-$defaultGradients = [
-    'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-    'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-    'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-    'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
-    'linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)',
-    'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)',
-    'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)',
-];
+$defaultIcon = 'ph ph-books';
 ?>
 
 <?php
@@ -99,12 +81,12 @@ $currentTab = $_GET['tab'] ?? 'books';
 <ul class="nav nav-pills mb-4 books-tab-nav" aria-label="Kitap görünüm sekmeleri">
     <li class="nav-item">
         <a class="nav-link <?= $currentTab === 'books' && empty($selectedCategory) ? 'active' : '' ?>" href="?action=books&tab=books">
-            📚 Tüm Kitaplar
+            <i class="ph ph-books fs-5"></i> Tüm Kitaplar
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link <?= $currentTab === 'categories' || !empty($selectedCategory) ? 'active' : '' ?>" href="?action=books&tab=categories">
-            🗂 Kategoriler
+            <i class="ph ph-folders fs-5"></i> Kategoriler
         </a>
     </li>
 </ul>
@@ -157,19 +139,19 @@ $currentTab = $_GET['tab'] ?? 'books';
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h2 class="mb-1">📚 Kitap Kategorileri</h2>
+        <h2 class="mb-1"><i class="ph ph-books me-2"></i>Kitap Kategorileri</h2>
         <p class="text-muted mb-0" style="color: var(--text-secondary) !important;">Bir kategori seçerek kitapları görüntüleyin</p>
     </div>
     <?php if (in_array($_SESSION['user_role'], [User::ROLE_ADMIN, User::ROLE_STAFF], true)): ?>
-    <a href="?action=add_book" class="btn btn-success">
-        <span style="margin-right: 6px;">＋</span>Yeni Kitap Ekle
+    <a href="?action=add_book" class="btn btn-primary d-flex align-items-center px-3" style="border-radius: 8px; font-weight: 500;">
+        <i class="ph ph-plus me-2 fs-5"></i> Yeni Kitap Ekle
     </a>
     <?php endif; ?>
 </div>
 
 <?php if (empty($categories)): ?>
 <div class="text-center py-5">
-    <div style="font-size: 4rem; margin-bottom: 16px;">📭</div>
+    <i class="ph ph-mailbox text-muted" style="font-size: 4rem; margin-bottom: 16px; display: inline-block;"></i>
     <h4>Henüz kategori bulunmamaktadır</h4>
     <p class="text-muted" style="color: var(--text-secondary) !important;">Kitap ekleyerek kategorileri oluşturabilirsiniz.</p>
 </div>
@@ -185,74 +167,62 @@ $currentTab = $_GET['tab'] ?? 'books';
     
     .custom-cat-card {
         transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        border: none;
+        border: 1px solid var(--border-color);
         border-radius: 12px;
-        box-shadow: 2px 6px 16px var(--shadow-color);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 24px 16px 16px 16px;
+        padding: 24px 16px;
         text-decoration: none !important;
         animation: cardEnter 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
-        aspect-ratio: 2 / 3;
+        aspect-ratio: 1;
         position: relative;
         overflow: hidden;
         background-color: var(--bg-card);
-    }
-
-    .custom-cat-card::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        width: 14px;
-        background: linear-gradient(to right, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 10%, rgba(0,0,0,0.15) 80%, rgba(0,0,0,0.3) 100%);
-        border-right: 1px solid rgba(0,0,0,0.15);
-        z-index: 0;
-    }
-    
-    .custom-cat-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 14px;
-        right: 0;
-        background: linear-gradient(to right, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 30%);
-        pointer-events: none;
-        z-index: 0;
+        color: var(--text-primary);
     }
 
     .custom-cat-card:hover {
-        transform: translateY(-8px) scale(1.02);
-        box-shadow: 4px 16px 32px var(--shadow-color);
+        transform: translateY(-6px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        border-color: var(--text-secondary);
+        color: var(--text-primary);
+    }
+
+    .cat-icon-wrap {
+        font-size: 3rem;
+        margin-bottom: 12px;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .cat-text-wrap {
         width: 100%;
-        padding: 12px 8px;
-        z-index: 1;
-        height: 100%;
         display: flex;
         flex-direction: column;
+        align-items: center;
     }
 
     .cat-count {
-        color: rgba(255,255,255,0.7);
-        font-size: 0.8rem;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
         font-weight: 500;
         letter-spacing: 0.5px;
         text-transform: uppercase;
+        margin-top: 4px;
     }
 
     .cat-title {
-        color: #ffffff;
+        color: var(--text-primary);
         font-size: 1.1rem;
-        font-weight: 700;
-        margin-top: 4px;
+        font-weight: 600;
         line-height: 1.2;
+        margin: 0;
+        text-align: center;
     }
 
     @keyframes cardEnter {
@@ -347,7 +317,7 @@ $currentTab = $_GET['tab'] ?? 'books';
 }
 
 .filter-dropdown .dropdown-list {
-    max-height: 250px;
+    max-height: 180px;
     overflow-y: auto;
     padding: 4px;
 }
@@ -385,16 +355,18 @@ $currentTab = $_GET['tab'] ?? 'books';
 
 <div class="category-grid">
     <?php foreach ($categories as $i => $cat):
-        $name = $cat['category'] ?: 'Genel';
-        $icon = $categoryIcons[$name][0] ?? $defaultIcon;
-        $gradient = $categoryIcons[$name][1] ?? $defaultGradients[$i % count($defaultGradients)];
+        $name = $cat['category'] ?: Book::DEFAULT_CATEGORY;
+        $iconClass = $iconMap[$name] ?? $defaultIcon;
     ?>
     <a href="?action=books&category=<?= urlencode($name) ?>"
        class="custom-cat-card"
-       style="background: <?= $gradient ?>; animation-delay: <?= $i * 0.04 ?>s;">
-        <div class="cat-text-wrap text-center">
-            <span class="cat-count"><?= (int) $cat['book_count'] ?> Kitap</span>
+       style="animation-delay: <?= $i * 0.04 ?>s;">
+        <div class="cat-icon-wrap">
+            <i class="<?= htmlspecialchars($iconClass) ?>"></i>
+        </div>
+        <div class="cat-text-wrap">
             <h5 class="cat-title"><?= htmlspecialchars($name) ?></h5>
+            <span class="cat-count"><?= (int) $cat['book_count'] ?> Kitap</span>
         </div>
     </a>
     <?php endforeach; ?>
@@ -419,6 +391,7 @@ $currentTab = $_GET['tab'] ?? 'books';
 
 #filterForm .filter-dropdown {
     position: relative;
+    --filter-options-max-height: 176px;
 }
 
 #filterForm .filter-dropdown .dropdown-menu {
@@ -448,11 +421,18 @@ $currentTab = $_GET['tab'] ?? 'books';
 
 #filterForm .filter-dropdown .dropdown-item {
     color: var(--text-primary) !important;
+    padding: 8px 12px;
     text-align: left;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 0.8rem;
+}
+
+#filterForm .filter-dropdown .dropdown-list {
+    max-height: var(--filter-options-max-height);
+    overflow-y: auto;
+    padding: 4px;
 }
 
 #filterForm .filter-dropdown .dropdown-item:hover {
@@ -600,8 +580,8 @@ $currentTab = $_GET['tab'] ?? 'books';
         </script>
 
         <?php if (in_array($_SESSION['user_role'], [User::ROLE_ADMIN, User::ROLE_STAFF], true)): ?>
-        <a href="?action=add_book" class="btn btn-success btn-sm d-flex align-items-center px-3" style="border-radius: 8px; font-weight: 500;">
-            <span style="margin-right: 4px; font-size: 1.1rem;">+</span> Ekle
+        <a href="?action=add_book" class="btn btn-primary d-flex align-items-center px-3" style="border-radius: 8px; font-weight: 500;">
+            <i class="ph ph-plus me-2 fs-5"></i> Yeni Kitap Ekle
         </a>
         <?php endif; ?>
     </div>
@@ -609,7 +589,7 @@ $currentTab = $_GET['tab'] ?? 'books';
 
 <?php if (empty($books)): ?>
 <div class="text-center py-5 w-100">
-    <div style="font-size: 3rem; margin-bottom: 12px;">📭</div>
+    <i class="ph ph-warning-circle text-muted" style="font-size: 3rem; margin-bottom: 12px; display: inline-block;"></i>
     <h4>Bu kategoride henüz kitap bulunmamaktadır</h4>
 </div>
 <?php else: ?>
@@ -666,7 +646,7 @@ $currentTab = $_GET['tab'] ?? 'books';
     ?>
     <div class="book-card-wrap" style="animation: cardEnter 0.5s cubic-bezier(0.4, 0, 0.2, 1) both; animation-delay: <?= $index * 0.04 ?>s;">
         <?php if ($currentTab === 'books' && empty($selectedCategory)): ?>
-            <div class="book-category-text" title="<?= htmlspecialchars(!empty($book['category']) ? $book['category'] : 'Genel') ?>"><?= htmlspecialchars(!empty($book['category']) ? $book['category'] : 'Genel') ?></div>
+            <div class="book-category-text" title="<?= htmlspecialchars(!empty($book['category']) ? $book['category'] : Book::DEFAULT_CATEGORY) ?>"><?= htmlspecialchars(!empty($book['category']) ? $book['category'] : Book::DEFAULT_CATEGORY) ?></div>
         <?php endif; ?>
         <div class="card shadow-sm border-0 h-100" 
              style="cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; border-radius: 12px; overflow: hidden;" 
@@ -690,7 +670,7 @@ $currentTab = $_GET['tab'] ?? 'books';
                 <?php if (!empty($book['cover_image'])): ?>
                     <img src="<?= htmlspecialchars($book['cover_image']) ?>" alt="Kapak" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
                 <?php else: ?>
-                    <div style="font-size: 4rem;">📗</div>
+                    <i class="ph ph-book-open text-muted" style="font-size: 4rem;"></i>
                 <?php endif; ?>
             </div>
             
@@ -832,7 +812,7 @@ $currentTab = $_GET['tab'] ?? 'books';
         <div class="row align-items-stretch">
             <div class="col-md-5 d-flex align-items-center justify-content-center" style="background: rgba(0,0,0,0.1); border-radius: 16px; padding: 15px;">
                 <img id="modalCover" src="" alt="Kapak" style="display: none; width: 100%; height: auto; max-height: 450px; object-fit: contain; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
-                <div id="modalCoverPlaceholder" style="font-size: 8rem; display: none;">📗</div>
+                <i id="modalCoverPlaceholder" class="ph ph-book-open text-muted" style="font-size: 8rem; display: none;"></i>
             </div>
             <div class="col-md-7 ps-md-4 mt-4 mt-md-0 d-flex flex-column">
                 <h2 id="modalTitle" class="mb-1"></h2>
@@ -895,16 +875,19 @@ function openBookModal(id, title, author, category, isbn, stock, cover, isReserv
     const userRole = "<?= $_SESSION['user_role'] ?>";
     const csrfToken = "<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>";
     const catName = "<?= htmlspecialchars($categoryName ?? '') ?>";
+    const returnTo = window.location.search || '?action=books';
+    const returnParam = encodeURIComponent(returnTo);
     
     actionsDiv.innerHTML = '';
     
     if (userRole === 'admin' || userRole === 'staff') {
         actionsDiv.innerHTML = `
             <div class="d-flex gap-2 justify-content-center">
-                <a href="?action=edit_book&id=${id}" class="btn btn-primary px-4">Düzenle</a>
+                <a href="?action=edit_book&id=${id}&return=${returnParam}" class="btn btn-primary px-4">Düzenle</a>
                 <form method="POST" action="?action=delete_book" onsubmit="return confirm('Bu kitabı silmek istediğinize emin misiniz?')">
                     <input type="hidden" name="csrf_token" value="${csrfToken}">
                     <input type="hidden" name="id" value="${id}">
+                    <input type="hidden" name="return" value="${returnTo}">
                     <button type="submit" class="btn btn-danger px-4">Sil</button>
                 </form>
             </div>

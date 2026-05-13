@@ -1,7 +1,9 @@
 <?php ob_start(); ?>
 <div class="page-header">
     <h2>Üye Listesi</h2>
-    <a href="?action=add_user" class="btn btn-success">Yeni Üye Ekle</a>
+    <a href="?action=add_user" class="btn btn-primary d-flex align-items-center px-3" style="border-radius: 8px; font-weight: 500;">
+        <i class="ph ph-plus me-2 fs-5"></i> Yeni Üye Ekle
+    </a>
 </div>
 
 <div class="table-responsive">
